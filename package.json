@@ -1,0 +1,22 @@
+{
+  "name": "ai-powered-hospital-management-system",
+  "version": "1.0.0",
+  "description": "Modern, intelligent, and responsive Hospital Management System with dual-mode AI Healthcare Assistant, EMR, Telemedicine, and Act 843 compliance.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.x"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "seed": "node src/seed.js"
+  },
+  "keywords": [
+    "hospital-management-system",
+    "emr",
+    "ai-healthcare",
+    "telemedicine",
+    "ghana-act-843"
+  ],
+  "author": "Antigravity HMS Team",
+  "license": "ISC"
+}

@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>St. Nicholas Digital Hospital | AI-Powered Hospital Management System</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- TOP EMERGENCY TICKER -->
+  <div class="top-emergency-bar">
+    <div>
+      <span class="emergency-badge">24/7 EMERGENCY</span>
+      National Ambulance: <strong>193</strong> &bull; Ghana Emergency: <strong>112</strong> &bull; Hospital Direct Triage: <a href="tel:+233302775555">+233 30 277 5555</a>
+    </div>
+    <div style="font-size: 0.78rem; color: #94a3b8;">
+      🛡️ Ghanaian Data Protection Act 2012 (Act 843) & HIPAA Compliant Healthcare System
+    </div>
+  </div>
+
+  <!-- 1-CLICK QUICK ROLE SWITCHER (For Testing & Evaluation) -->
+  <div class="role-quick-bar">
+    <span class="bar-label">⚡ 1-Click Role Switcher:</span>
+    <button class="role-btn active" data-role="patient">👤 Patient (Kwame Asante)</button>
+    <button class="role-btn" data-role="doctor">👨‍⚕️ Cardiologist (Dr. Mensah)</button>
+    <button class="role-btn" data-role="nurse">🩺 Ward Nurse (Grace Ofori)</button>
+    <button class="role-btn" data-role="admin">🛡️ Admin (Dr. Osei-Tutu)</button>
+    <button class="role-btn" data-role="pharmacist">💊 Pharmacist (Samuel Owusu)</button>
+    <button class="role-btn" data-role="lab_tech">🔬 Lab Scientist (Ebenezer)</button>
+    <button class="role-btn" data-role="receptionist">📋 Receptionist (Abena)</button>
+    <button class="role-btn" data-role="accountant">💳 Accountant (Michael)</button>
+    <span id="top-user-indicator" style="margin-left: auto; font-size: 0.75rem; color: #475569;"></span>
+  </div>
+
+  <!-- MAIN NAVIGATION HEADER -->
+  <header class="main-header">
+    <div class="nav-container">
+      <div class="logo-container" onclick="App.navigate('home')">
+        <div class="logo-icon">🏥</div>
+        <div class="logo-text">
+          <h1>ST. NICHOLAS HOSPITAL</h1>
+          <span>AI DIGITAL HEALTHCARE PLATFORM</span>
+        </div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="nav-link active" data-nav="home" onclick="App.navigate('home')">Home</a></li>
+        <li><a class="nav-link" data-nav="doctors" onclick="App.navigate('doctors')">Doctors & Specialists</a></li>
+        <li><a class="nav-link" data-nav="knowledge" onclick="App.navigate('knowledge')">First-Aid & Medication Hub</a></li>
+        <li><a class="nav-link" data-nav="dashboard" onclick="App.navigate('dashboard')">Portal Dashboards</a></li>
+      </ul>
+
+      <div class="nav-actions" id="nav-auth-actions">
+        <button class="btn btn-outline btn-sm" onclick="App.openAuthModal('login')">Sign In</button>
+        <button class="btn btn-primary btn-sm" onclick="App.openAuthModal('register')">Register Patient</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 1: HOMEPAGE -->
+  <!-- ========================================================= -->
+  <div id="view-home">
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="section-tag">Clinical Intelligence &bull; Digital Healthcare</span>
+          <h2>Advanced Hospital Care, <span>Empowered by Artificial Intelligence</span></h2>
+          <p>
+            Seamless specialist appointment bookings, electronic medical records (EMR), live vital signs tracking, virtual telemedicine consultations, and our 24/7 interactive AI Healthcare Assistant.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" onclick="App.navigate('dashboard')">
+              📅 Book Doctor Consultation
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="App.openAiDrawer('patient')">
+              🤖 Talk to AI Health Assistant
+            </button>
+            <button class="btn btn-outline btn-lg" onclick="App.navigate('knowledge')">
+              🩺 First-Aid & Symptoms Guide
+            </button>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat-card">
+              <strong>10,000+</strong>
+              <span>Patients Treated</span>
+            </div>
+            <div class="hero-stat-card">
+              <strong>45+</strong>
+              <span>Specialist Doctors</span>
+            </div>
+            <div class="hero-stat-card">
+              <strong>15 Min</strong>
+              <span>Average Wait Time</span>
+            </div>
+            <div class="hero-stat-card">
+              <strong>24/7</strong>
+              <span>Emergency & AI Support</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK APPOINTMENT BOOKING HERO CARD -->
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <h3>🗓️ Quick Appointment Booking</h3>
+            <p>Select your specialist doctor and preferred consultation slot</p>
+          </div>
+
+          <form onsubmit="event.preventDefault(); App.navigate('dashboard');">
+            <div class="form-group">
+              <label class="form-label">Medical Specialty</label>
+              <select class="form-control" id="home-spec" required>
+                <option value="Cardiology">Cardiology & Internal Medicine</option>
+                <option value="Pediatrics">Pediatrics & Child Health</option>
+                <option value="Surgery">General Surgery & Orthopedics</option>
+                <option value="General">General Practice / Family Medicine</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Consultation Type</label>
+                <select class="form-control" id="home-type">
+                  <option value="in_person">In-Person Clinic</option>
+                  <option value="virtual">Virtual Telemedicine</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Preferred Date</label>
+                <input type="date" class="form-control" value="2026-11-18">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">
+              Proceed to Book Consultation &rarr;
+            </button>
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
+              ⚡ Instant confirmation &bull; No double-booking guarantee
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDICAL DEPARTMENTS SECTION -->
+    <section class="container">
+      <div class="section-header">
+        <span class="section-tag">Clinical Excellence</span>
+        <h2>Our Specialized Medical Departments</h2>
+        <p>Comprehensive outpatient, surgical, and emergency healthcare backed by state-of-the-art diagnostic facilities.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-icon blue">❤️</div>
+          <h3>Cardiology & Heart Care</h3>
+          <p>Preventative screening, hypertension management, ECG diagnostics, and chronic coronary disease management.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon teal">👶</div>
+          <h3>Pediatrics & Child Health</h3>
+          <p>Dedicated infant and child care, pediatric asthma management, growth monitoring, and routine immunizations.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon amber">🦴</div>
+          <h3>Orthopedics & Surgery</h3>
+          <p>Bone trauma, joint rehabilitation, sports injury surgery, and minimally invasive general surgical procedures.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🔬</div>
+          <h3>Central Diagnostic Lab</h3>
+          <p>Fully automated hematology, malaria microscopy, chemical pathology, lipid profiles, and microbiology.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon blue">💊</div>
+          <h3>Pharmacy Services</h3>
+          <p>Licensed clinical pharmacists, computerized prescription dispensing, patient counseling, and drug formulary.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon red">🚑</div>
+          <h3>24/7 Emergency & Trauma</h3>
+          <p>Rapid triage, advanced resuscitation, ambulance transfer, and emergency critical care resuscitation suites.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon teal">🩺</div>
+          <h3>Internal Medicine</h3>
+          <p>Management of diabetes mellitus, infectious tropical diseases (Malaria, Typhoid), and metabolic disorders.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon amber">🎥</div>
+          <h3>Virtual Telemedicine</h3>
+          <p>Secure online video consultations with hospital specialists from the comfort and privacy of your home.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED DOCTORS SECTION -->
+    <section style="background: #ffffff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 60px 0;">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Medical Staff</span>
+          <h2>Meet Our Specialist Physicians</h2>
+          <p>Licensed practitioners certified by the Medical and Dental Council (MDC Ghana) and international colleges.</p>
+        </div>
+
+        <div class="grid-3">
+          <!-- Doctor 1 -->
+          <div class="card doctor-card">
+            <div class="doctor-img-wrap">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400" alt="Dr. Kwesi Mensah">
+              <span class="doctor-badge-status">MDC Verified</span>
+            </div>
+            <div class="doctor-card-body">
+              <h3>Dr. Kwesi Mensah</h3>
+              <span class="doctor-spec">Cardiology & Internal Medicine</span>
+              <p class="doctor-qual">MBChB (UGMS), FWACS (Cardiology), FACC &bull; License: MDC/RN/44912</p>
+              <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard')">Book Consultation</button>
+            </div>
+          </div>
+
+          <!-- Doctor 2 -->
+          <div class="card doctor-card">
+            <div class="doctor-img-wrap">
+              <img src="https://images.unsplash.com/photo-1594824813511-209e992167d4?w=400" alt="Dr. Akosua Boateng">
+              <span class="doctor-badge-status">MDC Verified</span>
+            </div>
+            <div class="doctor-card-body">
+              <h3>Dr. Akosua Boateng</h3>
+              <span class="doctor-spec">Pediatrics & Child Health</span>
+              <p class="doctor-qual">MBChB (KNUST), MWACP (Paediatrics) &bull; License: MDC/RN/51204</p>
+              <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard')">Book Consultation</button>
+            </div>
+          </div>
+
+          <!-- Doctor 3 -->
+          <div class="card doctor-card">
+            <div class="doctor-img-wrap">
+              <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400" alt="Dr. David Appiah">
+              <span class="doctor-badge-status">MDC Verified</span>
+            </div>
+            <div class="doctor-card-body">
+              <h3>Dr. David Appiah</h3>
+              <span class="doctor-spec">Orthopedic & General Surgery</span>
+              <p class="doctor-qual">MBChB, FGCS, FACS &bull; License: MDC/RN/38891</p>
+              <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard')">Book Consultation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI HEALTHCARE ASSISTANT SPOTLIGHT -->
+    <section class="container" style="padding: 60px 24px;">
+      <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: var(--radius-lg); padding: 48px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: center;">
+        <div>
+          <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 0.8rem; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full); text-transform: uppercase;">
+            Clinical AI Integration
+          </span>
+          <h2 style="font-size: 2.3rem; font-weight: 800; margin: 16px 0; color: #fff;">
+            Intelligent Healthcare Assistant at Your Service
+          </h2>
+          <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.6; margin-bottom: 24px;">
+            Accessible anytime for patients and hospital staff. Understand symptoms, get step-by-step first-aid protocols, learn about hospital medications, and navigate your medical records safely.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-lg" onclick="App.openAiDrawer('patient')">
+              Ask AI Assistant Now 💬
+            </button>
+            <button class="btn btn-outline btn-lg" style="border-color: #94a3b8; color: #fff;" onclick="App.openAiDrawer('doctor')">
+              Clinical Staff Reference Mode 🩺
+            </button>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-md); padding: 24px;">
+          <h4 style="color: #38bdf8; margin-bottom: 12px; font-size: 0.95rem;">💡 What You Can Ask:</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.88rem; color: #e2e8f0;">
+            <li style="cursor: pointer;" onclick="App.openAiDrawer('patient'); App.setAiPrompt('What are the symptoms and treatment of malaria?')">👉 "What are the classic symptoms of malaria?"</li>
+            <li style="cursor: pointer;" onclick="App.openAiDrawer('patient'); App.setAiPrompt('How do I perform CPR on an adult?')">👉 "How do I perform first-aid CPR for an unconscious person?"</li>
+            <li style="cursor: pointer;" onclick="App.openAiDrawer('patient'); App.setAiPrompt('Explain Metformin uses and side effects')">👉 "Explain Metformin 500mg approved uses & precautions"</li>
+            <li style="cursor: pointer;" onclick="App.openAiDrawer('patient'); App.setAiPrompt('What is normal blood pressure range?')">👉 "What is a healthy resting blood pressure reading?"</li>
+          </ul>
+          <div style="margin-top: 16px; font-size: 0.75rem; color: #94a3b8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 10px;">
+            ⚠️ Strict Medical Safety: AI provides health education only and redirects emergencies to 112.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GHANAIAN DATA PROTECTION ACT & COMPLIANCE BANNER -->
+    <section style="background: #f1f5f9; padding: 40px 0; border-top: 1px solid var(--border);">
+      <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div style="font-size: 2.4rem;">🛡️</div>
+          <div>
+            <h4 style="font-size: 1.1rem; color: var(--secondary);">Ghanaian Data Protection Act, 2012 (Act 843) Certified</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+              Electronic health records, laboratory reports, and clinical consultations are protected with role-based access control and immutable audit trails.
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <span class="badge badge-success">Act 843 Compliant</span>
+          <span class="badge badge-info">256-Bit Encrypted</span>
+          <span class="badge badge-neutral">MDC Verified Staff</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 2: DASHBOARDS CONTAINER (PATIENT, DOCTOR, NURSE, ETC.) -->
+  <!-- ========================================================= -->
+  <div id="view-dashboard" style="display: none;">
+    <div id="dashboard-container">
+      <!-- Injected by Dashboards.renderPatient / renderDoctor / etc. -->
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 3: FIRST-AID & MEDICATION KNOWLEDGE HUB -->
+  <!-- ========================================================= -->
+  <div id="view-knowledge" style="display: none;">
+    <section class="container">
+      <div class="section-header">
+        <span class="section-tag">Medical Knowledge Base</span>
+        <h2>Searchable First-Aid & Medication Library</h2>
+        <p>Verified clinical information on common symptoms, medical conditions, step-by-step first-aid protocols, and hospital medications.</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 32px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <input type="text" id="kb-search-input" class="form-control" style="flex: 1;" placeholder="Search symptoms, illnesses, medications (e.g. CPR, Burns, Malaria, Metformin, Asthma)..." oninput="App.searchKnowledgeHub(this.value)">
+          <button class="btn btn-primary" onclick="App.searchKnowledgeHub(document.getElementById('kb-search-input').value)">
+            Search Database
+          </button>
+        </div>
+      </div>
+
+      <div id="knowledge-cards-container" class="grid-3">
+        <!-- Rendered by App.searchKnowledgeHub -->
+      </div>
+    </section>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- VIEW 4: DOCTORS DIRECTORY -->
+  <!-- ========================================================= -->
+  <div id="view-doctors" style="display: none;">
+    <section class="container">
+      <div class="section-header">
+        <span class="section-tag">Medical Directory</span>
+        <h2>Our Specialist Physicians & Clinical Faculty</h2>
+        <p>Book verified consultants across Cardiology, Pediatrics, General Surgery, and Family Medicine.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card doctor-card">
+          <div class="doctor-img-wrap">
+            <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400" alt="Dr. Kwesi Mensah">
+            <span class="doctor-badge-status">MDC Verified</span>
+          </div>
+          <div class="doctor-card-body">
+            <h3>Dr. Kwesi Mensah</h3>
+            <span class="doctor-spec">Cardiology & Internal Medicine</span>
+            <p class="doctor-qual">FWACS (Cardiology), MBChB &bull; Room 204 &bull; Mon - Fri: 08:00 AM - 03:00 PM</p>
+            <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard'); App.switchPatientTab('pt-book');">Book Appointment</button>
+          </div>
+        </div>
+
+        <div class="card doctor-card">
+          <div class="doctor-img-wrap">
+            <img src="https://images.unsplash.com/photo-1594824813511-209e992167d4?w=400" alt="Dr. Akosua Boateng">
+            <span class="doctor-badge-status">MDC Verified</span>
+          </div>
+          <div class="doctor-card-body">
+            <h3>Dr. Akosua Boateng</h3>
+            <span class="doctor-spec">Pediatrics & Child Health</span>
+            <p class="doctor-qual">MWACP (Paediatrics), MBChB &bull; Room 108 &bull; Mon - Fri: 09:00 AM - 04:00 PM</p>
+            <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard'); App.switchPatientTab('pt-book');">Book Appointment</button>
+          </div>
+        </div>
+
+        <div class="card doctor-card">
+          <div class="doctor-img-wrap">
+            <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400" alt="Dr. David Appiah">
+            <span class="doctor-badge-status">MDC Verified</span>
+          </div>
+          <div class="doctor-card-body">
+            <h3>Dr. David Appiah</h3>
+            <span class="doctor-spec">Orthopedic & General Surgery</span>
+            <p class="doctor-qual">FGCS, FACS, MBChB &bull; Surgical Wing Suite 3 &bull; Mon - Fri: 08:30 AM - 02:30 PM</p>
+            <button class="btn btn-primary btn-sm" onclick="App.navigate('dashboard'); App.switchPatientTab('pt-book');">Book Appointment</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="background: #0f172a; color: #f8fafc; padding: 60px 0 20px 0; margin-top: 60px; border-top: 1px solid #1e293b;">
+    <div class="container" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 40px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <div style="font-size: 1.8rem;">🏥</div>
+          <h3 style="font-size: 1.2rem; color: #fff;">ST. NICHOLAS HOSPITAL</h3>
+        </div>
+        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.6; margin-bottom: 16px;">
+          Premier digital healthcare center in Accra, Ghana. Powered by clinical artificial intelligence, state-of-the-art diagnostic laboratories, and accredited specialist physicians.
+        </p>
+        <p style="font-size: 0.85rem; color: #38bdf8;">
+          📍 Airport Residential Area, Liberation Road, Accra, Ghana
+        </p>
+      </div>
+
+      <div>
+        <h4 style="color: #fff; font-size: 1rem; margin-bottom: 16px;">Departments</h4>
+        <ul style="list-style: none; font-size: 0.88rem; color: #94a3b8; display: flex; flex-direction: column; gap: 8px;">
+          <li>Cardiology & Heart Center</li>
+          <li>Pediatrics & Neonatal Care</li>
+          <li>General & Orthopedic Surgery</li>
+          <li>Central Diagnostic Pathology</li>
+          <li>Clinical Pharmacology</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color: #fff; font-size: 1rem; margin-bottom: 16px;">Patient Services</h4>
+        <ul style="list-style: none; font-size: 0.88rem; color: #94a3b8; display: flex; flex-direction: column; gap: 8px;">
+          <li>Online Appointment Scheduling</li>
+          <li>Virtual Telemedicine Suites</li>
+          <li>Electronic Medical Records (EMR)</li>
+          <li>First-Aid & Medication Database</li>
+          <li>NHIS & Mobile Money Billing</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 style="color: #fff; font-size: 1rem; margin-bottom: 16px;">Emergency & Triage</h4>
+        <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 12px;">
+          Our 24-hour Emergency Resuscitation and Trauma Unit is always open.
+        </p>
+        <div style="font-size: 1.1rem; font-weight: 700; color: #ef4444; margin-bottom: 4px;">
+          🚨 National: 112 / 193
+        </div>
+        <div style="font-size: 0.9rem; color: #38bdf8;">
+          Hospital Line: +233 30 277 5555
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid #1e293b; padding-top: 20px; text-align: center; font-size: 0.8rem; color: #64748b;">
+      &copy; 2026 St. Nicholas Digital Hospital. Compliant with Data Protection Act, 2012 (Act 843) of Ghana. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- ========================================================= -->
+  <!-- FLOATING AI HEALTHCARE ASSISTANT TRIGGER & DRAWER -->
+  <!-- ========================================================= -->
+  <button class="ai-floating-trigger" onclick="App.toggleAiDrawer()">
+    🤖 AI Health Assistant
+  </button>
+
+  <div id="ai-chat-drawer" class="ai-chat-drawer">
+    <div class="ai-chat-header">
+      <div class="ai-header-title">
+        <div style="font-size: 1.4rem;">🤖</div>
+        <div>
+          <h4>AI Healthcare Assistant</h4>
+          <span>Clinical Education & Triage Support</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <select id="ai-mode-select" style="background: #334155; color: #fff; border: none; font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">
+          <option value="patient">Patient Mode</option>
+          <option value="doctor">Staff / Clinical Mode</option>
+        </select>
+        <button class="modal-close" style="color: #fff;" onclick="App.toggleAiDrawer()">&times;</button>
+      </div>
+    </div>
+
+    <div id="ai-chat-messages" class="ai-chat-body">
+      <div class="ai-msg ai-msg-bot">
+        Hello! I am your <strong>Hospital AI Healthcare Assistant</strong>.<br><br>
+        I can help you understand symptoms, explore first aid, explain medications (e.g. Amlodipine, Metformin), and guide you with appointment booking.<br><br>
+        <em>How may I assist you today?</em>
+      </div>
+    </div>
+
+    <!-- Suggested Quick Prompts -->
+    <div class="ai-chips-container">
+      <span class="ai-chip" onclick="App.setAiPrompt('What is the first aid for a severe burn?')">🔥 Burn First Aid</span>
+      <span class="ai-chip" onclick="App.setAiPrompt('Explain Metformin dosage and side effects')">💊 Metformin Guide</span>
+      <span class="ai-chip" onclick="App.setAiPrompt('What are symptoms of Malaria?')">🦟 Malaria Signs</span>
+      <span class="ai-chip" onclick="App.setAiPrompt('How do I book an appointment with Dr. Mensah?')">📅 Book Doctor</span>
+      <span class="ai-chip" onclick="App.setAiPrompt('I have severe crushing chest pain and left arm numbness')">🚨 Emergency Check</span>
+    </div>
+
+    <div class="ai-chat-footer">
+      <input type="text" id="ai-chat-input" class="form-control" placeholder="Ask a health question or symptom..." onkeydown="if(event.key === 'Enter') App.handleAiSendMessage()">
+      <button class="btn btn-primary" onclick="App.handleAiSendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- MODALS -->
+  <!-- ========================================================= -->
+
+  <!-- 1. AUTH MODAL (LOGIN & REGISTRATION) -->
+  <div id="modal-auth" class="modal-overlay">
+    <div class="modal-content" style="max-width: 550px;">
+      <div class="modal-header">
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-sm auth-tab-btn active" data-tab="login" onclick="App.switchAuthTab('login')">Sign In</button>
+          <button class="btn btn-sm auth-tab-btn" data-tab="register" onclick="App.switchAuthTab('register')">Register Account</button>
+        </div>
+        <button class="modal-close" onclick="App.closeModal('modal-auth')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- LOGIN PANE -->
+        <div id="auth-pane-login">
+          <form onsubmit="App.handleLogin(event)">
+            <div class="form-group">
+              <label class="form-label">Email Address or Patient / Staff ID</label>
+              <input type="text" id="login-id" class="form-control" placeholder="e.g. kwame.asante@gmail.com or HMS-P-2026-001" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">
+              Secure Log In
+            </button>
+          </form>
+
+          <div style="margin-top: 20px; padding: 12px; background: #f8fafc; border-radius: var(--radius-md); font-size: 0.8rem; text-align: center; color: var(--text-muted);">
+            💡 <em>Tip: You can also use the <strong>1-Click Role Switcher</strong> at the very top of the page to evaluate any role instantly!</em>
+          </div>
+        </div>
+
+        <!-- REGISTER PANE -->
+        <div id="auth-pane-register" style="display: none;">
+          <form onsubmit="App.handleRegister(event)">
+            <div class="form-group">
+              <label class="form-label">Account Category</label>
+              <select id="reg-role" class="form-control" onchange="document.getElementById('doc-reg-fields').style.display = (this.value === 'doctor' || this.value === 'nurse') ? 'block' : 'none';">
+                <option value="patient">Patient Account (Receive unique Patient ID)</option>
+                <option value="doctor">Medical Doctor Portal</option>
+                <option value="nurse">Nurse Portal</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="reg-name" class="form-control" placeholder="e.g. Ama Serwaa" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="reg-email" class="form-control" placeholder="ama.serwaa@gmail.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" id="reg-phone" class="form-control" placeholder="+233 24 000 0000" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="reg-password" class="form-control" placeholder="Minimum 6 characters" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select id="reg-gender" class="form-control">
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" id="reg-dob" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Residential Address</label>
+              <input type="text" id="reg-address" class="form-control" placeholder="e.g. East Legon, Accra">
+            </div>
+
+            <!-- Professional Fields for Doctor/Nurse -->
+            <div id="doc-reg-fields" style="display: none; border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 12px;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Specialization / Ward</label>
+                  <input type="text" id="reg-specialization" class="form-control" placeholder="e.g. Cardiology">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">License Number (MDC / NMC)</label>
+                  <input type="text" id="reg-license" class="form-control" placeholder="e.g. MDC/RN/12345">
+                </div>
+              </div>
+            </div>
+
+            <!-- Patient specific fields -->
+            <div class="form-group">
+              <label class="form-label">NHIS Number (Optional)</label>
+              <input type="text" id="reg-nhis" class="form-control" placeholder="GH-NHIS-0000000">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">
+              Complete Registration & Access Portal
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NEW EMR / DIAGNOSIS MODAL (DOCTOR) -->
+  <div id="modal-new-emr" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📋 Clinical Examination & Diagnosis Document</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-new-emr')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handleSaveEMR(event)">
+          <div class="form-group">
+            <label class="form-label">Patient</label>
+            <select id="emr-modal-patient" class="form-control" required>
+              <option value="HMS-P-2026-001">Kwame Asante (HMS-P-2026-001)</option>
+              <option value="HMS-P-2026-002">Ama Serwaa (HMS-P-2026-002)</option>
+              <option value="HMS-P-2026-003">Emmanuel Addo (HMS-P-2026-003)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Primary Diagnosis</label>
+              <input type="text" id="emr-modal-diagnosis" class="form-control" placeholder="e.g. Stage 1 Essential Hypertension" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ICD-10 Code</label>
+              <input type="text" id="emr-modal-icd" class="form-control" placeholder="e.g. I10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Presenting Symptoms & History</label>
+            <textarea id="emr-modal-symptoms" class="form-control" placeholder="Patient complaints, duration, severity..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Clinical Examination Findings</label>
+            <textarea id="emr-modal-notes" class="form-control" placeholder="Cardiovascular, respiratory, abdominal exam notes..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Prescribed Treatment Plan & Instructions</label>
+            <textarea id="emr-modal-plan" class="form-control" placeholder="Therapeutic steps, lifestyle, dietary recommendations..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Recommended Follow-Up Date</label>
+            <input type="date" id="emr-modal-followup" class="form-control">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Sign & Save Clinical Record</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. NEW PRESCRIPTION MODAL (DOCTOR) -->
+  <div id="modal-new-rx" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>💊 Write & Issue Medical Prescription</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-new-rx')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handleSaveRx(event)">
+          <div class="form-group">
+            <label class="form-label">Patient</label>
+            <select id="rx-modal-patient" class="form-control" required>
+              <option value="HMS-P-2026-001">Kwame Asante (HMS-P-2026-001)</option>
+              <option value="HMS-P-2026-002">Ama Serwaa (HMS-P-2026-002)</option>
+              <option value="HMS-P-2026-003">Emmanuel Addo (HMS-P-2026-003)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Medication Name & Strength</label>
+              <input type="text" id="rx-modal-drug" class="form-control" placeholder="e.g. Amlodipine Besylate" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Dosage</label>
+              <input type="text" id="rx-modal-dosage" class="form-control" placeholder="e.g. 10mg" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Frequency</label>
+              <input type="text" id="rx-modal-freq" class="form-control" placeholder="e.g. Once daily in the morning" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Duration</label>
+              <input type="text" id="rx-modal-duration" class="form-control" placeholder="e.g. 30 days" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Special Administration Instructions</label>
+            <textarea id="rx-modal-inst" class="form-control" placeholder="Take with food, avoid alcohol, take with plenty of water..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Sign & Authorize Prescription</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. NEW LAB ORDER MODAL (DOCTOR) -->
+  <div id="modal-new-lab" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔬 Order Diagnostic Laboratory Investigation</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-new-lab')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handleSaveLabOrder(event)">
+          <div class="form-group">
+            <label class="form-label">Patient</label>
+            <select id="lab-modal-patient" class="form-control" required>
+              <option value="HMS-P-2026-001">Kwame Asante (HMS-P-2026-001)</option>
+              <option value="HMS-P-2026-002">Ama Serwaa (HMS-P-2026-002)</option>
+              <option value="HMS-P-2026-003">Emmanuel Addo (HMS-P-2026-003)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Test Name</label>
+            <select id="lab-modal-test" class="form-control" required>
+              <option value="Full Blood Count (FBC / CBC)">Full Blood Count (FBC / CBC)</option>
+              <option value="Lipid Profile (Cholesterol, HDL, LDL, Trig)">Lipid Profile (Cholesterol, HDL, LDL, Trig)</option>
+              <option value="Malaria Parasite (RDT & Microscopy)">Malaria Parasite (RDT & Microscopy)</option>
+              <option value="Fasting Blood Glucose & HbA1c">Fasting Blood Glucose & HbA1c</option>
+              <option value="Liver Function Tests (LFTs)">Liver Function Tests (LFTs)</option>
+              <option value="Renal Function / Serum Creatinine">Renal Function / Serum Creatinine</option>
+              <option value="Urinalysis Routine Examination">Urinalysis Routine Examination</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Specimen Type</label>
+              <select id="lab-modal-specimen" class="form-control">
+                <option value="Venous Blood (EDTA)">Venous Blood (EDTA)</option>
+                <option value="Venous Blood (Serum)">Venous Blood (Serum)</option>
+                <option value="Capillary Blood">Capillary Blood</option>
+                <option value="Mid-stream Urine">Mid-stream Urine</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select id="lab-modal-priority" class="form-control">
+                <option value="Routine">Routine</option>
+                <option value="Urgent">Urgent</option>
+                <option value="STAT">STAT / Emergency</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Transmit Order to Diagnostic Lab</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. ENTER LAB RESULT MODAL (LAB SCIENTIST) -->
+  <div id="modal-enter-lab" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔬 Enter & Verify Laboratory Results</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-enter-lab')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handleSaveLabResult(event)">
+          <input type="hidden" id="result-modal-labid">
+          <div style="margin-bottom: 16px;">
+            <strong id="result-modal-testname" style="font-size: 1.1rem; color: var(--secondary);"></strong>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Measured Result Value & Units</label>
+            <input type="text" id="result-modal-val" class="form-control" placeholder="e.g. Hb: 13.5 g/dL | WBC: 6.2 x10^9/L" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Normal Reference Range</label>
+              <input type="text" id="result-modal-range" class="form-control" placeholder="e.g. 12.0 - 16.0 g/dL">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Clinical Flag</label>
+              <select id="result-modal-flag" class="form-control">
+                <option value="Normal">Normal</option>
+                <option value="High">High</option>
+                <option value="Low">Low</option>
+                <option value="Critical">Critical Alert 🚨</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Technician Observations & Notes</label>
+            <textarea id="result-modal-notes" class="form-control" placeholder="Note quality control, analyzer status, or clinical remarks..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg" style="width: 100%;">Verify & Publish Diagnostic Report</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. VITALS ENTRY MODAL (NURSE) -->
+  <div id="modal-nurse-vitals" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📈 Record Patient Vital Signs</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-nurse-vitals')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handleSaveVitals(event)">
+          <div class="form-group">
+            <label class="form-label">Patient</label>
+            <select id="vital-modal-patient" class="form-control" required>
+              <option value="HMS-P-2026-001">Kwame Asante (HMS-P-2026-001)</option>
+              <option value="HMS-P-2026-002">Ama Serwaa (HMS-P-2026-002)</option>
+              <option value="HMS-P-2026-003">Emmanuel Addo (HMS-P-2026-003)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Systolic BP (mmHg)</label>
+              <input type="number" id="vital-modal-sys" class="form-control" placeholder="120" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Diastolic BP (mmHg)</label>
+              <input type="number" id="vital-modal-dia" class="form-control" placeholder="80" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Temperature (°C)</label>
+              <input type="number" step="0.1" id="vital-modal-temp" class="form-control" placeholder="36.8" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pulse (bpm)</label>
+              <input type="number" id="vital-modal-pulse" class="form-control" placeholder="72" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">SpO2 (%)</label>
+              <input type="number" step="0.1" id="vital-modal-spo2" class="form-control" placeholder="98" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Blood Sugar (mmol/L)</label>
+              <input type="number" step="0.1" id="vital-modal-sugar" class="form-control" placeholder="5.4">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nursing Observation Notes</label>
+            <textarea id="vital-modal-notes" class="form-control" placeholder="Patient resting comfortably, no respiratory distress..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Save Vitals</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. BILLING PAYMENT MODAL (ACCOUNTANT & PATIENT) -->
+  <div id="modal-pay-invoice" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>💳 Hospital Payment Processing</h3>
+        <button class="modal-close" onclick="App.closeModal('modal-pay-invoice')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="App.handlePayInvoice(event)">
+          <input type="hidden" id="pay-modal-invid">
+          <div style="background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px; text-align: center;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Outstanding Balance Due</span>
+            <h2 id="pay-modal-balance" style="color: var(--secondary); margin-top: 4px;"></h2>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Amount (GHS)</label>
+            <input type="number" step="0.5" id="pay-modal-amount" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select Payment Method</label>
+            <select id="pay-modal-method" class="form-control">
+              <option value="Mobile Money (MTN MoMo)">Mobile Money (MTN MoMo: *170#)</option>
+              <option value="Mobile Money (Telecel Cash)">Mobile Money (Telecel Cash)</option>
+              <option value="Card (Visa / Mastercard)">Card (Visa / Mastercard)</option>
+              <option value="Cash at Cashier Desk">Cash at Cashier Desk</option>
+              <option value="NHIS Claims Co-Pay">NHIS Insurance Co-Pay</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg" style="width: 100%; margin-top: 8px;">Process Payment Receipt</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. TELEMEDICINE VIRTUAL CONSULTATION ROOM MODAL -->
+  <div id="modal-telemed-room" class="modal-overlay">
+    <div class="modal-content" style="max-width: 900px; padding: 0;">
+      <div class="modal-header" style="background: #0f172a; color: #fff; border-bottom: none;">
+        <div>
+          <h3 style="color: #fff;">🎥 Virtual Telemedicine Consultation Room</h3>
+          <span style="font-size: 0.8rem; color: #38bdf8;">Encrypted WebRTC Channel: <code id="telemed-meeting-code"></code></span>
+        </div>
+        <button class="modal-close" style="color: #fff;" onclick="App.closeModal('modal-telemed-room')">&times;</button>
+      </div>
+
+      <div class="telemed-container" style="height: 480px; margin: 16px;">
+        <div class="telemed-video-pane">
+          <div style="text-align: center;">
+            <div style="font-size: 3.5rem; margin-bottom: 12px;">👨‍⚕️ 🩺</div>
+            <h3 id="telemed-peer-name">Connecting with Doctor / Patient...</h3>
+            <p style="color: #38bdf8; font-size: 0.85rem; margin-top: 4px;">1080p HD Video & Audio Stream Live</p>
+          </div>
+          <div class="telemed-feed-self">
+            <div style="padding: 6px; font-size: 0.7rem; color: #38bdf8;">You (Camera Active)</div>
+          </div>
+          <div class="telemed-controls">
+            <button class="telemed-btn" title="Microphone">🎤</button>
+            <button class="telemed-btn" title="Camera">📹</button>
+            <button class="telemed-btn" title="Screen Share">🖥️</button>
+            <button class="telemed-btn end-call" onclick="App.closeModal('modal-telemed-room')" title="End Call">📞</button>
+          </div>
+        </div>
+
+        <div class="telemed-sidebar" style="padding: 16px;">
+          <h4 style="margin-bottom: 8px; color: var(--secondary);">Live Tele-Consultation Notes</h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Notes documented here will automatically append to the patient's EMR record.</p>
+          <textarea class="form-control" style="flex: 1; resize: none; margin-bottom: 12px;" placeholder="Record patient symptoms, verbal prescriptions, and clinical instructions..."></textarea>
+          <button class="btn btn-primary btn-sm" onclick="App.saveTelemedNotes()">Save Clinical Note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. KNOWLEDGE ARTICLE DETAIL MODAL -->
+  <div id="modal-kb-detail" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-kb-title"></h3>
+        <button class="modal-close" onclick="App.closeModal('modal-kb-detail')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-kb-summary" style="font-size: 1rem; color: var(--primary-dark); font-weight: 600; margin-bottom: 16px;"></p>
+        <div id="modal-kb-content" style="font-size: 0.92rem; line-height: 1.7; color: var(--text-main);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINTABLE OFFICIAL MEDICAL REPORT CONTAINER -->
+  <div id="printable-report" class="no-screen"></div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboards.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
